@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Riesgos de Corazón</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      function clasificarInsecto(event) {
+        event.preventDefault();
+        const Age = parseFloat(document.getElementById("Age").value);
+        const Systolic = parseFloat(document.getElementById("Systolic").value);
+        const isDiabetic = parseFloat(
+          document.getElementById("isDiabetic").value
+        );
+        const isSmoker = parseFloat(document.getElementById("isSmoker").value);
+
+        const data = {
+          Age: Age,
+          Systolic: Systolic,
+          isDiabetic: isDiabetic,
+          isSmoker: isSmoker,
+        };
+
+        fetch("/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              alert("Error: " + data.error);
+            } else {
+              alert("Usted tiene un riesgo: " + data.Risk);
+            }
+          })
+          .catch((error) => {
+            alert("Error en la solicitud.");
+            console.error("Error:", error);
+          });
+      }
+
+      function limpiarFormulario() {
+        document.getElementById("formulario").reset();
+      }
+    </script>
+
+    <style>
+      body {
+        background-color: #f5f5f5;
+        font-family: "Roboto", sans-serif;
+      }
+      .card {
+        margin-top: 50px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .card-header {
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: none;
+      }
+      .card-header h3 {
+        font-weight: 400;
+        color: #333;
+      }
+      .form-group label {
+        font-weight: 500;
+      }
+      .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 10px;
+      }
+      .btn-primary {
+        background-color: #1a73e8;
+        border-color: #1a73e8;
+        font-weight: 500;
+        padding: 10px;
+        border-radius: 6px;
+        width: 40%;
+      }
+      .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        font-weight: 500;
+        padding: 10px;
+        border-radius: 6px;
+        width: 40%;
+      }
+      .text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card mx-auto" style="max-width: 800px">
+        <div class="card-header">
+          <h3 class="text-primary">Riesgos de Corazón</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-5">
+              <img src="../static/images/corazon.jpg" alt="" />
+            </div>
+            <div class="col-md-7">
+              <form id="formulario" onsubmit="clasificarInsecto(event)">
+                <div class="form-group">
+                  <label for="Age">Edad:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="Age"
+                    name="Age"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="Systolic">Presión Arterial:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="Systolic"
+                    name="Systolic"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="isDiabetic">¿Es Diabético?:</label>
+                  <select
+                    class="form-control"
+                    id="isDiabetic"
+                    name="isDiabetic"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Seleccione una opción
+                    </option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="isSmoker">¿Es Fumador?:</label>
+                  <select
+                    class="form-control"
+                    id="isSmoker"
+                    name="isSmoker"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Seleccione una opción
+                    </option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                  </select>
+                </div>
+                <div class="form-group text-center d-flex justify-content-between mt-4">
+                  <button type="submit" class="btn btn-primary">
+                    Consultar
+                  </button>
+                  <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">
+                    Limpiar
+                  </button>
+                </div>
+              </form>
+              <p id="resultado" class="text-center mt-4"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

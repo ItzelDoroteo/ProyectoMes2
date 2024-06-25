@@ -21,7 +21,7 @@ def create_model():
     model.compile(loss='mean_squared_error', optimizer='adam')
     return model
 # Cargar el modelo entrenado
-model = joblib.load('modelo.pkl')
+model = joblib.load('model_nl.pkl')
 app.logger.debug('Modelo cargado correctamente.')
 
 @app.route('/')

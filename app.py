@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, jsonify
 import joblib
 import pandas as pd
 import logging
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Input
 
 app = Flask(__name__)
 
@@ -10,9 +12,14 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Definir la función create_model (esto es solo un ejemplo)
 def create_model():
-    # Definición de la función según el contexto original
-    pass
-
+    model = Sequential()
+    model.add(Input(shape=([5])))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(8, activation='relu'))
+    model.add(Dense(1))
+    model.compile(loss='mean_squared_error', optimizer='adam')
+    return model
 # Cargar el modelo entrenado
 model = joblib.load('modelo.pkl')
 app.logger.debug('Modelo cargado correctamente.')

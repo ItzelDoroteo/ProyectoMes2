@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulario de Riesgos de Corazón</title>
+    <title>Emiciones de vehiculos</title>
     <link
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
@@ -11,18 +11,18 @@
     <script>
       function clasificarInsecto(event) {
         event.preventDefault();
-        const Age = parseFloat(document.getElementById("Age").value);
-        const Systolic = parseFloat(document.getElementById("Systolic").value);
-        const isDiabetic = parseFloat(
-          document.getElementById("isDiabetic").value
+        const fuel = parseFloat(document.getElementById("fuel").value);
+        const fuel_combustion = parseFloat(document.getElementById("fuel_combustion").value);
+        const unnamed9 = parseFloat(
+          document.getElementById("unnamed9").value
         );
-        const isSmoker = parseFloat(document.getElementById("isSmoker").value);
+        const unnamed10 = parseFloat(document.getElementById("unnamed10").value);
 
         const data = {
-          Age: Age,
-          Systolic: Systolic,
-          isDiabetic: isDiabetic,
-          isSmoker: isSmoker,
+          fuel: fuel,
+          fuel_combustion: fuel_combustion,
+          unnamed9: unnamed9,
+          unnamed10: unnamed10,
         };
 
         fetch("/predict", {
@@ -37,7 +37,7 @@
             if (data.error) {
               alert("Error: " + data.error);
             } else {
-              alert("Usted tiene un riesgo: " + data.Risk);
+              alert("La emicion de CO2 es: " + data.CO2_EMISSIONS);
             }
           })
           .catch((error) => {
@@ -102,66 +102,54 @@
   </head>
   <body>
     <div class="container">
-      <div class="card mx-auto" style="max-width: 800px">
+      <div class="card mx-auto" style="max-width: 900px">
         <div class="card-header">
-          <h3 class="text-primary">Riesgos de Corazón</h3>
+          <h3 class="text-primary">Predicción de emiciones de CO2 de automóviles</h3>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-5">
-              <img src="../static/images/corazon.jpg" alt="" />
+              <img src="../static/images/EmisionesCo2.jpg" alt="" style="width: 90%;" />
             </div>
             <div class="col-md-7">
               <form id="formulario" onsubmit="clasificarInsecto(event)">
                 <div class="form-group">
-                  <label for="Age">Edad:</label>
+                  <label for="fuel">Tamaño del motor:</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="Age"
-                    name="Age"
+                    id="fuel"
+                    name="fuel"
                     required
                   />
                 </div>
                 <div class="form-group">
-                  <label for="Systolic">Presión Arterial:</label>
+                  <label for="fuel_combustion">Combustion del combustible:</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="Systolic"
-                    name="Systolic"
+                    id="fuel_combustion"
+                    name="fuel_combustion"
                     required
                   />
                 </div>
                 <div class="form-group">
-                  <label for="isDiabetic">¿Es Diabético?:</label>
-                  <select
+                  <label for="unnamed9">Dato desconocido 9:</label>
+                  <input
                     class="form-control"
-                    id="isDiabetic"
-                    name="isDiabetic"
+                    id="unnamed9"
+                    name="unnamed9"
                     required
                   >
-                    <option value="" disabled selected>
-                      Seleccione una opción
-                    </option>
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
-                  </select>
                 </div>
                 <div class="form-group">
-                  <label for="isSmoker">¿Es Fumador?:</label>
-                  <select
+                  <label for="unnamed10">Dato desconocido 10:</label>
+                  <input
                     class="form-control"
-                    id="isSmoker"
-                    name="isSmoker"
+                    id="unnamed10"
+                    name="unnamed10"
                     required
                   >
-                    <option value="" disabled selected>
-                      Seleccione una opción
-                    </option>
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
-                  </select>
                 </div>
                 <div class="form-group text-center d-flex justify-content-between mt-4">
                   <button type="submit" class="btn btn-primary">
